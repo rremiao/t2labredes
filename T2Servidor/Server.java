@@ -2,6 +2,9 @@ package T2Servidor;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     public static void main(String args[])  throws Exception
@@ -15,17 +18,51 @@ public class Server {
 
        DatagramSocket serverSocket = new DatagramSocket(port);
        System.out.println("Server is listening on port " + port);
-
-          byte[] receiveData = new byte[1024];
+       List<Jogador> listaJogadores = new ArrayList<>();
+       
+       byte[] receiveData = new byte[1024];
           while(true)
-             {
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                serverSocket.receive(receivePacket);
+          {
+             // declara o pacote a ser recebido
+             DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
-                String sentence = new String(receivePacket.getData());
+             // recebe o pacote do cliente
+             serverSocket.receive(receivePacket);
 
-                System.out.println("Mensagem recebida: " + sentence);
+             // pega os dados, o endereco IP e a porta do cliente
+             // para poder mandar a msg de volta
+             String sentence = new String(receivePacket.getData());
+             InetAddress IPAddress = receivePacket.getAddress();
+             int receivePort = receivePacket.getPort();
+
+             System.out.println("Mensagem recebida: " + sentence);
+             if(!sentence.trim().equals("FIM")){
+             // cria pacote com o dado, o endereco do server e porta do servidor
+             DatagramPacket sendPacket = new DatagramPacket(receiveData, receiveData.length, IPAddress, receivePort);
+             serverSocket.send(sendPacket);
              }
+             else {
+                System.out.println("Encerrando o servidor...");
+                System.exit(0);
+                serverSocket.close();
+                break;
+             }
+
+             PacoteMensagem pacote = new PacoteMensagem();
+
+             switch(Acoes.valueOf(sentence.trim())) {
+               case EXAMINAR: break;
+               case MOVER: break;
+               case PEGAR: break;
+               case LARGAR: break;
+               case INVENTARIO: break;
+               case USAR: pacote = AcoesLogica.realizaUsar(sentence);
+               case FALAR: break;
+               case COCHICHAR: break;
+               case AJUDA: break;
+               default: break;
+
+             }
+          }
     }
-    
 }
