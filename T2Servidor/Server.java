@@ -4,6 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Server {
@@ -49,8 +50,8 @@ public class Server {
              }
 
              PacoteMensagem pacote = new PacoteMensagem();
-
-             switch(Acoes.valueOf(sentence.trim())) {
+             List<String> lista = Arrays.asList(sentence.split(" "));
+             switch(Acoes.valueOf(lista.get(0))) {
                case EXAMINAR: break;
                case MOVER: break;
                case PEGAR: break;
@@ -58,9 +59,17 @@ public class Server {
                case INVENTARIO: break;
                case USAR: pacote = AcoesLogica.realizaUsar(sentence);
                case FALAR: break;
-               case COCHICHAR: break;
-               case AJUDA: break;
-               default: break;
+               case COCHICHAR: 
+               Jogador jogadorDestinatario = new Jogador();
+
+                           for(Jogador j : listaJogadores) {
+                              if(sentence.contains(j.getNome())) {
+                                 jogadorDestinatario = j;
+                              }
+                           }
+                           pacote = AcoesLogica.realizaCochichar(sentence); pacote.setJogador(jogadorDestinatario) ;break;
+               case AJUDA: pacote = AcoesLogica.realizaAjuda(sentence);
+               default: throw new IllegalArgumentException("Comando invalido."); 
 
              }
           }

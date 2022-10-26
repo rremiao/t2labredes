@@ -7,19 +7,25 @@ public class PacoteMensagem {
     
     private String objeto;
 
-    private String jogador;
+    private Jogador jogador;
 
     private String direcao;
+
+    private String sala;
+
+    private String mensagem;
 
     public PacoteMensagem() {}
 
     public PacoteMensagem(Acoes acao, String alvo, String objeto, 
-        String jogador, String direcao) {
+        Jogador jogador, String direcao, String sala, String mensagem) {
             this.acao = acao;
             this.alvo = alvo;
             this.objeto = objeto;
             this.jogador = jogador;
             this.direcao = direcao;
+            this.sala = sala;
+            this.mensagem = mensagem;
         }
 
     public Acoes getAcao() {
@@ -46,11 +52,11 @@ public class PacoteMensagem {
         this.objeto = objeto;
     }
 
-    public String getJogador() {
+    public Jogador getJogador() {
         return this.jogador;
     }
 
-    public void setJogador(String jogador) {
+    public void setJogador(Jogador jogador) {
         this.jogador = jogador;
     }
 
@@ -61,6 +67,18 @@ public class PacoteMensagem {
     public void setDirecao(String direcao) {
         this.direcao = direcao;
     }
+
+    public String getSala() {
+        return this.sala;
+    }
+
+    public void setSala(String sala) {
+        this.sala = sala;
+    }
+
+    public String getMensagem() { return this.mensagem;}
+
+    public void setMensagem(String mensagem) { this.mensagem = mensagem;}
 
     @Override
     public String toString() {
