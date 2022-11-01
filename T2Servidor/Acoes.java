@@ -9,7 +9,8 @@ public enum Acoes {
     USAR(6, "Usar", "Permite você usar um item"),
     FALAR(7, "Falar", "Permite você falar com os jogadores da sala"),
     COCHICHAR(8, "Cochichar", "Permite você cochichar com um único jogador da sala"),
-    AJUDA(9, "Ajuda", "Lista os comandos da aplicação");
+    AJUDA(9, "Ajuda", "Lista os comandos da aplicação"),
+    CRIAR(10, "Criar", "Cria novo jogador");
     
     private final int codigo;
     

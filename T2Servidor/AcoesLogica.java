@@ -87,7 +87,7 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizaUsar(String sentence) {
+    public static PacoteMensagem realizarUsar(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -102,7 +102,7 @@ public class AcoesLogica {
     }
 
     
-    public static PacoteMensagem realizaFalar(String sentence) {
+    public static PacoteMensagem realizarFalar(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -121,7 +121,7 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizaCochichar(String sentence) {
+    public static PacoteMensagem realizarCochichar(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -140,7 +140,7 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizaAjuda(String sentence) {
+    public static PacoteMensagem realizarAjuda(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -160,5 +160,10 @@ public class AcoesLogica {
         return pacote;
     }
     
-    
+    public static PacoteMensagem realizarCriar(String sentence, int count, String ip, String porta) {
+        PacoteMensagem pacote = new PacoteMensagem();
+        String jogador = Arrays.asList(sentence.split(" ")).get(1);
+        pacote.setJogador(new Jogador(count++, jogador, ip, porta));
+        return pacote;
+    }
 }

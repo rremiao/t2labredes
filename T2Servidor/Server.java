@@ -20,7 +20,7 @@ public class Server {
        DatagramSocket serverSocket = new DatagramSocket(port);
        System.out.println("Server is listening on port " + port);
        List<Jogador> listaJogadores = new ArrayList<>();
-       
+       int count = 0;
        byte[] receiveData = new byte[1024];
           while(true)
           {
@@ -29,7 +29,7 @@ public class Server {
 
              // recebe o pacote do cliente
              serverSocket.receive(receivePacket);
-
+            
              // pega os dados, o endereco IP e a porta do cliente
              // para poder mandar a msg de volta
              String sentence = new String(receivePacket.getData());
@@ -52,13 +52,13 @@ public class Server {
              PacoteMensagem pacote = new PacoteMensagem();
              List<String> lista = Arrays.asList(sentence.split(" "));
              switch(Acoes.valueOf(lista.get(0))) {
-               case EXAMINAR: break;
-               case MOVER: break;
-               case PEGAR: break;
-               case LARGAR: break;
-               case INVENTARIO: break;
-               case USAR: pacote = AcoesLogica.realizaUsar(sentence);
-               case FALAR: break;
+               case EXAMINAR: pacote = AcoesLogica.realizarExaminar(sentence);
+               case MOVER: pacote = AcoesLogica.realizarMover(sentence);
+               case PEGAR: pacote = AcoesLogica.realizarPegar(sentence);
+               case LARGAR: pacote = AcoesLogica.realizarLargar(sentence);
+               case INVENTARIO: pacote = AcoesLogica.realizarInventario(sentence);
+               case USAR: pacote = AcoesLogica.realizarUsar(sentence);
+               case FALAR: pacote = AcoesLogica.realizarFalar(sentence);
                case COCHICHAR: 
                Jogador jogadorDestinatario = new Jogador();
 
@@ -67,8 +67,9 @@ public class Server {
                                  jogadorDestinatario = j;
                               }
                            }
-                           pacote = AcoesLogica.realizaCochichar(sentence); pacote.setJogador(jogadorDestinatario) ;break;
-               case AJUDA: pacote = AcoesLogica.realizaAjuda(sentence);
+                           pacote = AcoesLogica.realizarCochichar(sentence); pacote.setJogador(jogadorDestinatario);
+               case AJUDA: pacote = AcoesLogica.realizarAjuda(sentence);
+               case CRIAR: pacote = AcoesLogica.realizarCriar(sentence, count, IPAddress.getAddress().toString(), String.valueOf(receivePort));
                default: throw new IllegalArgumentException("Comando invalido."); 
 
              }

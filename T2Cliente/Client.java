@@ -1,19 +1,13 @@
 package T2Cliente;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.nio.file.Path;
-import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Client {
-
 public static void main(String args[]) throws Exception {
       
    if (args.length < 2) {
@@ -25,14 +19,16 @@ public static void main(String args[]) throws Exception {
       int port = Integer.parseInt(args[1]);
       
 
-      
       BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
       DatagramSocket clientSocket = new DatagramSocket();
       InetAddress IPAddress = InetAddress.getByName(serverAddr);
       
-      while(true) {
-         System.out.println("Digite uma mensagem: ");
-         String mssg = inFromUser.readLine();
+      clientSocket = setUserConnection(clientSocket, inFromUser, IPAddress, port);
+
+      while(!clientSocket.isClosed()) {
+         System.out.println("Digite seu comando:");
+         String connect = "CRIA ";
+         String mssg = connect.concat(inFromUser.readLine());
          byte[] sendData = new byte[1024];
          byte[] receiveData = new byte[1024];
          sendData = mssg.getBytes();
@@ -48,10 +44,27 @@ public static void main(String args[]) throws Exception {
             String sentenceReceived = new String(receivePacket.getData());
             System.out.println("Mensagem recebida do servidor: " + sentenceReceived);
          } else {
-            break;
+            clientSocket.close();
          }
       }
-      
-      clientSocket.close();
+   }
+
+   private static DatagramSocket setUserConnection(DatagramSocket clientSocket, BufferedReader inFromUser, InetAddress IPAddress, int port) throws IOException {
+      System.out.println("Digite seu nome: ");
+      String name = inFromUser.readLine();
+      byte[] sendName = new byte[1024];
+      byte[] response = new byte[1024];
+      sendName = name.getBytes();
+      DatagramPacket sendNamePacket = new DatagramPacket(sendName, sendName.length, IPAddress, port);
+      clientSocket.send(sendNamePacket);
+      DatagramPacket receiveNamePacket = new DatagramPacket(response, response.length);   
+      clientSocket.receive(receiveNamePacket);
+      String responseReceived = new String(receiveNamePacket.getData()); 
+      if(responseReceived.contains("Erro")) {
+         System.out.println("Usuario / Conexão Invalida.");
+         clientSocket.close();
+      }
+
+      return clientSocket;
    }
 }
