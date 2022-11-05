@@ -15,10 +15,12 @@ public class PacoteMensagem {
 
     private String mensagem;
 
+    private Erro erro;
+
     public PacoteMensagem() {}
 
     public PacoteMensagem(Acoes acao, String alvo, String objeto, 
-        Jogador jogador, String direcao, String sala, String mensagem) {
+        Jogador jogador, String direcao, String sala, String mensagem, Erro erro) {
             this.acao = acao;
             this.alvo = alvo;
             this.objeto = objeto;
@@ -26,6 +28,7 @@ public class PacoteMensagem {
             this.direcao = direcao;
             this.sala = sala;
             this.mensagem = mensagem;
+            this.erro = erro;
         }
 
     public Acoes getAcao() {
@@ -79,6 +82,14 @@ public class PacoteMensagem {
     public String getMensagem() { return this.mensagem;}
 
     public void setMensagem(String mensagem) { this.mensagem = mensagem;}
+
+    public Erro getErro() {
+        return erro;
+    }
+
+    public void setErro(Erro erro) {
+        this.erro = erro;
+    }
 
     @Override
     public String toString() {

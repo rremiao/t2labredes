@@ -1,33 +1,27 @@
 package T2Servidor;
 
-import java.util.List;
-
 public class Porta {
-    List<Direcoes> direcoes;
-    List<Boolean> abertas;
+    Direcoes direcao;
+    boolean aberta;
 
-    
-
-    public Porta(List<Direcoes> direcoes, List<Boolean> abertas) {
-        this.direcoes = direcoes;
-        this.abertas = abertas;
+    public Porta(Direcoes direcao, boolean aberta) {
+        this.direcao = direcao;
+        this.aberta = aberta;
     }
 
-    public List<Direcoes> getDirecoes() {
-        return direcoes;
+    public Direcoes getDirecao() {
+        return direcao;
     }
 
-    public void setDirecoes(List<Direcoes> direcoes) {
-        this.direcoes = direcoes;
+    public void setDirecao(Direcoes direcao) {
+        this.direcao = direcao;
     }
 
-    public List<Boolean> getAbertas() {
-        return abertas;
-    }
-    
-    public void setAbertas(List<Boolean> abertas) {
-        this.abertas = abertas;
+    public boolean getAberta() {
+        return aberta;
     }
 
-    
+    public void setAberta(boolean aberta) {
+        this.aberta = aberta;
+    }    
 }
