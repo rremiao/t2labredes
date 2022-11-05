@@ -1,0 +1,129 @@
+{
+   "listaSalas": [
+    {
+        "sala": {
+            "id": "0",
+            "saida": false,
+            "portas": [
+                {
+                    "direcao": "Sul",
+                    "aberta": false,
+                    "sala": "1"
+                }
+            ],
+            "objetos": [
+                {
+                    "codigo": 1,
+                    "objeto": "Chave",
+                    "descricao": "chave que pode ser usado em portas"
+                }
+            ],
+            "jogadores": [],
+            "ascii": ""
+            }
+    },
+    {
+        "sala": {
+            "id": "1",
+            "saida": false,
+            "portas": [
+                {
+                    "direcao": "Sul",
+                    "aberta": false,
+                    "sala": "4"
+                },
+                {
+                    "direcao": "Norte",
+                    "aberta": false,
+                    "sala": "0"
+                },
+                {
+                    "direcao": "Leste",
+                    "aberta": false,
+                    "sala": "3"
+                },
+                {
+                    "direcao": "Oeste",
+                    "aberta": false,
+                    "sala": "2"
+                }
+            ],
+            "objetos": [
+                {
+                    "codigo": 1,
+                    "objeto": "Chave",
+                    "descricao": "chave que pode ser usado em portas"
+                }
+            ],
+            "jogadores": [],
+            "ascii": ""
+           }
+    },
+    {
+        "sala": {
+            "id": "2",
+            "saida": false,
+            "portas": [
+                {
+                    "direcao": "Leste",
+                    "aberta": false,
+                    "sala": "1"
+                }
+            ],
+            "objetos": [
+                {
+                    "codigo": 1,
+                    "objeto": "Chave",
+                    "descricao": "chave que pode ser usado em portas"
+                }
+            ],
+            "jogadores": [],
+            "ascii": ""
+           }
+    },
+    {
+        "sala": {
+            "id": "3",
+            "saida": true,
+            "portas": [
+                {
+                    "direcao": "Oeste",
+                    "aberta": false,
+                    "sala": "1"
+                }
+            ],
+            "objetos": [
+                {
+                    "codigo": 1,
+                    "objeto": "Chave",
+                    "descricao": "chave que pode ser usado em portas"
+                }
+            ],
+            "jogadores": [],
+            "ascii": ""
+           }
+    },
+    {
+        "sala": {
+            "id": "4",
+            "saida": false,
+            "portas": [
+                {
+                    "direcao": "Norte",
+                    "aberta": false,
+                    "sala": "1"
+                }
+            ],
+            "objetos": [
+                {
+                    "codigo": 1,
+                    "objeto": "Chave",
+                    "descricao": "chave que pode ser usado em portas"
+                }
+            ],
+            "jogadores": [],
+            "ascii": ""
+           }
+    }
+   ] 
+}
