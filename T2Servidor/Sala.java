@@ -9,13 +9,15 @@ public class Sala {
     List<Objetos> objetos;
     String ascii;
     List<String> jogadores;
+    boolean saida;
 
-    public Sala(String id, List<Porta> portas, List<Objetos> objetos, String ascii) {
+    public Sala(String id, List<Porta> portas, List<Objetos> objetos, String ascii, boolean saida) {
         this.id = id;
         this.portas = portas;
         this.objetos = objetos;
         this.ascii = ascii;
         this.jogadores = new ArrayList<>();
+        this.saida = saida;
     }
 
     public String getId() {
@@ -65,4 +67,27 @@ public class Sala {
     public void adicionaObjeto(Objetos objeto) {
         this.objetos.add(objeto);
     }
+
+    public List<String> getJogadores() {
+        return jogadores;
+    }
+
+    public void setJogadores(List<String> jogadores) {
+        this.jogadores = jogadores;
+    }
+
+    public boolean isSaida() {
+        return saida;
+    }
+
+    public void setSaida(boolean saida) {
+        this.saida = saida;
+    }
+
+    @Override
+    public String toString() {
+        return "Sala [ \n"+"id=" + id +"\n"+ "portas=" + portas +"\n" + "objetos=" + objetos + "\n"+"saida=" + saida + "\n"+"]";
+    }
+
+    
 }
