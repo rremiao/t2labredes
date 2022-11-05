@@ -1,5 +1,8 @@
 package T2Servidor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Jogador {
     private int id;
 
@@ -9,6 +12,8 @@ public class Jogador {
 
     private String porta;
 
+    private List<Objetos> inventario;   
+    
     public Jogador() {}
 
     public Jogador(int id, String nome, String ip, String porta) {
@@ -16,6 +21,7 @@ public class Jogador {
         this.nome = nome;
         this.ip = ip;
         this.porta = porta;
+        this.inventario = new ArrayList<>();
     }
 
     public int getId() {
@@ -48,5 +54,13 @@ public class Jogador {
 
     public void setPorta(String porta) {
         this.porta = porta;
+    }
+
+    public List<Objetos> getInventario() {
+        return inventario;
+    }
+
+    public void setInventario(List<Objetos> inventario) {
+        this.inventario = inventario;
     }
 }
