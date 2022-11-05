@@ -20,5 +20,6 @@ public enum Objetos {
     public String getObjeto() { return this.objeto;}
 
     public String getDescricao() { return this.descricao;}
+
     
 }   
