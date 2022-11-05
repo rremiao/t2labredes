@@ -29,6 +29,12 @@ public class Porta {
 
     public String getSala() {
         return sala;
+    }
+
+    @Override
+    public String toString() {
+        return "Porta [direcao=" + direcao + ", aberta=" + aberta + ", sala=" + sala + "]";
     }    
+    
     
 }
