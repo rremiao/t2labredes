@@ -19,7 +19,7 @@ public class Server {
 
        DatagramSocket serverSocket = new DatagramSocket(port);
        System.out.println("Server is listening on port " + port);
-       List<Sala> salas = new ArrayList<>();
+       Mapa mapa = new Mapa();
        List<Jogador> listaJogadores = new ArrayList<>();
        int count = 0;
        EnviaMensagem enviaMensagem = new EnviaMensagem();
@@ -81,8 +81,7 @@ public class Server {
                case CRIAR: pacote = AcoesLogica.realizarCriar(sentence, count, IPAddress.getAddress().toString(), String.valueOf(receivePort)); break;
                default: throw new IllegalArgumentException("Comando invalido.");
              }
-             respostaMensagem = enviaMensagem.transmiteMensagem(serverSocket, pacote, listaJogadores, salas);
-             
+             respostaMensagem = enviaMensagem.transmiteMensagem(serverSocket, pacote, listaJogadores, mapa.getSalas());  
           }
     }
 }
