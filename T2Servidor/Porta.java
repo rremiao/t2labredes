@@ -3,10 +3,12 @@ package T2Servidor;
 public class Porta {
     Direcoes direcao;
     boolean aberta;
+    String sala;
 
-    public Porta(Direcoes direcao, boolean aberta) {
+    public Porta(Direcoes direcao, boolean aberta, String sala) {
         this.direcao = direcao;
         this.aberta = aberta;
+        this.sala = sala;
     }
 
     public Direcoes getDirecao() {
@@ -23,5 +25,10 @@ public class Porta {
 
     public void setAberta(boolean aberta) {
         this.aberta = aberta;
+    }
+
+    public String getSala() {
+        return sala;
     }    
+    
 }

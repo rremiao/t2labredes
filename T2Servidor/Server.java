@@ -19,12 +19,14 @@ public class Server {
 
        DatagramSocket serverSocket = new DatagramSocket(port);
        System.out.println("Server is listening on port " + port);
+       List<Sala> salas = new ArrayList<>();
        List<Jogador> listaJogadores = new ArrayList<>();
        int count = 0;
        EnviaMensagem enviaMensagem = new EnviaMensagem();
        byte[] receiveData = new byte[1024];
           while(true)
           {
+            RespostaMensagem respostaMensagem = null;
              // declara o pacote a ser recebido
              DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
@@ -63,17 +65,23 @@ public class Server {
                case COCHICHAR: 
                Jogador jogadorDestinatario = new Jogador();
 
-                           for(Jogador j : listaJogadores) {
-                              if(sentence.contains(j.getNome())) {
-                                 jogadorDestinatario = j;
-                              }
-                           }
-                           pacote = AcoesLogica.realizarCochichar(sentence); pacote.setJogador(jogadorDestinatario); break;
+                  for(Jogador j : listaJogadores) {
+                     if(sentence.contains(j.getNome())) {
+                        jogadorDestinatario = j;
+                     }
+                  }
+                  if(jogadorDestinatario.getNome() != null) {
+                     pacote = AcoesLogica.realizarCochichar(sentence); 
+                     pacote.setJogador(jogadorDestinatario); 
+                  } else {
+                     pacote.setErro(Erro.COCHICHAR);
+                  }
+                  break;
                case AJUDA: pacote = AcoesLogica.realizarAjuda(sentence); break;
                case CRIAR: pacote = AcoesLogica.realizarCriar(sentence, count, IPAddress.getAddress().toString(), String.valueOf(receivePort)); break;
                default: throw new IllegalArgumentException("Comando invalido.");
              }
-             enviaMensagem.transmiteMensagem(serverSocket, pacote);
+             respostaMensagem = enviaMensagem.transmiteMensagem(serverSocket, pacote, listaJogadores, salas);
              
           }
     }

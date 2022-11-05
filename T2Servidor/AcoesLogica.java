@@ -25,7 +25,8 @@ public class AcoesLogica {
             }
 
         }
-        return null;
+        pacote.setErro(Erro.EXAMINAR);
+        return pacote;
     }
 
     public static PacoteMensagem realizarMover(String sentence) {
@@ -42,7 +43,8 @@ public class AcoesLogica {
             }
 
         }
-        return null;
+        pacote.setErro(Erro.MOVER);
+        return pacote;
     }
 
     public static PacoteMensagem realizarPegar(String sentence) {
@@ -59,8 +61,8 @@ public class AcoesLogica {
             }
 
         }
-
-        return null;
+        pacote.setErro(Erro.PEGAR);
+        return pacote;
     }
 
     public static PacoteMensagem realizarLargar(String sentence) {
@@ -77,8 +79,8 @@ public class AcoesLogica {
             }
 
         }
-
-        return null;
+        pacote.setErro(Erro.LARGAR);
+        return pacote;
     }
 
     public static PacoteMensagem realizarInventario(String sentence) {
@@ -120,7 +122,7 @@ public class AcoesLogica {
 
         return pacote;
     }
-
+    //cochichar jioijo oijio jogador
     public static PacoteMensagem realizarCochichar(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 

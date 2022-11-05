@@ -9,7 +9,6 @@ public class Sala {
     List<Objetos> objetos;
     String ascii;
     List<String> jogadores;
-    
 
     public Sala(String id, List<Porta> portas, List<Objetos> objetos, String ascii) {
         this.id = id;
@@ -57,5 +56,13 @@ public class Sala {
     
     public void removeJogador(String jogador) {
         this.jogadores.remove(jogador);
+    }
+
+    public void removeObjeto(Objetos objeto) {
+        this.objetos.remove(objeto);
+    }
+
+    public void adicionaObjeto(Objetos objeto) {
+        this.objetos.add(objeto);
     }
 }
