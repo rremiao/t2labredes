@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AcoesLogica {
 
-    public static PacoteMensagem realizarExaminar(String sentence) {
+    public static PacoteMensagem realizarExaminar(String sentence, Sala sala) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -14,12 +14,13 @@ public class AcoesLogica {
         pacote.setAcao(Acoes.valueOf(lista.get(0)));
         
         if(lista.get(1).contains("sala")) {
-            pacote.setSala("sala");
+            pacote.setSala(sala.id);
             return pacote;
         }
         
-        for(Objetos o : Objetos.values()) {
+        for(Objetos o : sala.objetos) {
             if(lista.get(1).contains(o.getObjeto())) {
+                pacote.setSala(sala.id);
                 pacote.setObjeto(o.getObjeto());
                 return pacote;
             }
@@ -165,7 +166,10 @@ public class AcoesLogica {
     public static PacoteMensagem realizarCriar(String sentence, int count, String ip, String porta) {
         PacoteMensagem pacote = new PacoteMensagem();
         String jogador = Arrays.asList(sentence.split(" ")).get(1);
+        pacote.setAcao(Acoes.CRIAR);
+        pacote.setSala("0");
         pacote.setJogador(new Jogador(count++, jogador, ip, porta));
+        System.out.println("Pacote get sala:" + pacote.getSala());
         return pacote;
     }
 }

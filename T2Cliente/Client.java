@@ -26,9 +26,8 @@ public static void main(String args[]) throws Exception {
       clientSocket = setUserConnection(clientSocket, inFromUser, IPAddress, port);
 
       while(!clientSocket.isClosed()) {
-         System.out.println("Digite seu comando:");
-         String connect = "CRIA ";
-         String mssg = connect.concat(inFromUser.readLine());
+         System.out.println("Digite seu comando:");         
+         String mssg = inFromUser.readLine();
          byte[] sendData = new byte[1024];
          byte[] receiveData = new byte[1024];
          sendData = mssg.getBytes();
@@ -37,7 +36,7 @@ public static void main(String args[]) throws Exception {
 
          // declara o pacote a ser recebido
          DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-
+         System.out.println(receivePacket.getData().toString());
          // recebe o pacote do cliente
          if(!mssg.contains("FIM")) {
             clientSocket.receive(receivePacket);
@@ -51,7 +50,8 @@ public static void main(String args[]) throws Exception {
 
    private static DatagramSocket setUserConnection(DatagramSocket clientSocket, BufferedReader inFromUser, InetAddress IPAddress, int port) throws IOException {
       System.out.println("Digite seu nome: ");
-      String name = inFromUser.readLine();
+      String connect = "CRIAR ";
+      String name = connect.concat(inFromUser.readLine());
       byte[] sendName = new byte[1024];
       byte[] response = new byte[1024];
       sendName = name.getBytes();
@@ -59,7 +59,9 @@ public static void main(String args[]) throws Exception {
       clientSocket.send(sendNamePacket);
       DatagramPacket receiveNamePacket = new DatagramPacket(response, response.length);   
       clientSocket.receive(receiveNamePacket);
-      String responseReceived = new String(receiveNamePacket.getData()); 
+      System.out.println("receivePacket: " + receiveNamePacket.getAddress().toString() + "\n" + "porta: " + receiveNamePacket.getPort());
+      String responseReceived = new String(receiveNamePacket.getData());
+      System.out.println(responseReceived); 
       if(responseReceived.contains("Erro")) {
          System.out.println("Usuario / Conexão Invalida.");
          clientSocket.close();
