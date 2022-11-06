@@ -1,18 +1,28 @@
 package T2Servidor;
 
+import java.util.List;
+
 public class RespostaMensagem {
     private Jogador jogador;
+    private List<Jogador> jogadores;
     private Sala sala;
+    private Sala novaSala;
     private String erro;
     private Acoes acao;
     private String mensagem;
     
-    public RespostaMensagem(Jogador jogador, Sala sala, String erro, Acoes acao, String mensagem) {
+    public RespostaMensagem(String erro) {
+        this.erro = erro;
+    }
+
+    public RespostaMensagem(Jogador jogador, Sala sala, Sala novSala,String erro, Acoes acao, String mensagem, List<Jogador> jogadores) {
         this.jogador = jogador;
         this.sala = sala;
+        this.novaSala = novSala;
         this.erro = erro;
         this.acao = acao;
         this.mensagem = mensagem;
+        this.jogadores = jogadores;
     }
 
     public Acoes getAcao() {
@@ -33,5 +43,13 @@ public class RespostaMensagem {
 
     public String getMensagem() {
         return mensagem;
+    }
+
+    public Sala getNovaSala() {
+        return novaSala;
+    }
+
+    public List<Jogador> getJogadores() {
+        return jogadores;
     }    
 }

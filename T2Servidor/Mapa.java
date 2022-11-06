@@ -10,7 +10,7 @@ public class Mapa {
         this.salas = new ArrayList<>();
         this.salas.add(
             new Sala("0",
-             Arrays.asList(new Porta(Direcoes.SUL, false, "1")), Arrays.asList(Objetos.CHAVE), null, false
+             Arrays.asList(new Porta(Direcoes.SUL, true, "1")), Arrays.asList(Objetos.CHAVE), null, false
             )
         );
         this.salas.add(

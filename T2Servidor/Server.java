@@ -53,13 +53,22 @@ public class Server {
 
              PacoteMensagem pacote = new PacoteMensagem();
              List<String> lista = Arrays.asList(sentence.split(" "));
-             switch(Acoes.valueOf(lista.get(0))) {
+             System.out.println("Examinar: " + lista.get(0).toUpperCase());
+             System.out.println("Direcao: " + lista.get(1).toUpperCase());
+             Jogador j;
+             Sala s;
+            //  System.out.println("Case: " + Acoes.valueOf(lista.get(0)));
+             switch(Acoes.valueOf(lista.get(0).toUpperCase())) {
                case EXAMINAR: 
-                  Jogador jj = listaJogadores.stream().filter(x -> x.getIp().equals(String.valueOf(receivePort))).findFirst().get();
-                  Sala s = mapa.getSalas().stream().filter(x -> x.getJogadores().contains(jj.getNome())).findFirst().get();
+                  j = listaJogadores.stream().filter(x -> x.getPorta().equals(String.valueOf(receivePort))).findFirst().get();
+                  s = mapa.getSalas().stream().filter(x -> x.getJogadores().contains(j.getNome())).findFirst().get();
                   pacote = AcoesLogica.realizarExaminar(sentence, s); 
                   break;
-               case MOVER: pacote = AcoesLogica.realizarMover(sentence); break;
+               case MOVER: 
+                  j = listaJogadores.stream().filter(x -> x.getPorta().equals(String.valueOf(receivePort))).findFirst().get();
+                  s = mapa.getSalas().stream().filter(x -> x.getJogadores().contains(j.getNome())).findFirst().get();
+                  pacote = AcoesLogica.realizarMover(sentence, s); 
+                  break;
                case PEGAR: pacote = AcoesLogica.realizarPegar(sentence); break;
                case LARGAR: pacote = AcoesLogica.realizarLargar(sentence); break;
                case INVENTARIO: pacote = AcoesLogica.realizarInventario(sentence); break;
@@ -68,9 +77,9 @@ public class Server {
                case COCHICHAR: 
                Jogador jogadorDestinatario = new Jogador();
 
-                  for(Jogador j : listaJogadores) {
-                     if(sentence.contains(j.getNome())) {
-                        jogadorDestinatario = j;
+                  for(Jogador jogador : listaJogadores) {
+                     if(sentence.contains(jogador.getNome())) {
+                        jogadorDestinatario = jogador;
                      }
                   }
                   if(jogadorDestinatario.getNome() != null) {
@@ -86,13 +95,17 @@ public class Server {
              }
              respostaMensagem = enviaMensagem.transmiteMensagem(serverSocket, pacote, listaJogadores, mapa.getSalas(), IPAddress, receivePort); 
              switch(respostaMensagem.getAcao()) {
-               case EXAMINAR: break;
-               case CRIAR: 
-                  Jogador j = new Jogador(count++, lista.get(lista.size() -1), IPAddress.getAddress().toString(), String.valueOf(receivePort));
-                  listaJogadores.add(j);
-                  mapa.getSalas().get(Integer.parseInt(respostaMensagem.getSala().id)).jogadores.add(j.getNome());
+               case CRIAR:
+                  //Não está funcionando esse if
+                  if(respostaMensagem.getErro() != null) {} 
+                  Jogador jogador = new Jogador(count++, lista.get(lista.size() -1), IPAddress.getAddress().toString(), String.valueOf(receivePort));
+                  listaJogadores.add(jogador);
+                  mapa.getSalas().get(Integer.parseInt(respostaMensagem.getSala().id)).jogadores.add(jogador.getNome());
                   break;
-
+               case MOVER:
+                  mapa.getSalas().get(Integer.parseInt(respostaMensagem.getSala().id)).getJogadores().remove(respostaMensagem.getJogador().getNome());
+                  mapa.getSalas().get(Integer.parseInt(respostaMensagem.getNovaSala().id)).getJogadores().add(respostaMensagem.getJogador().getNome());
+                  break;
                default: break;   
              }
              System.out.println(mapa.getSalas().get(0).toString());

@@ -6,7 +6,7 @@
             "saida": false,
             "portas": [
                 {
-                    "direcao": "Sul",
+                    "direcao": "SUL",
                     "aberta": false,
                     "sala": "1"
                 }
@@ -28,22 +28,22 @@
             "saida": false,
             "portas": [
                 {
-                    "direcao": "Sul",
+                    "direcao": "SUL",
                     "aberta": false,
                     "sala": "4"
                 },
                 {
-                    "direcao": "Norte",
+                    "direcao": "NORTE",
                     "aberta": false,
                     "sala": "0"
                 },
                 {
-                    "direcao": "Leste",
+                    "direcao": "LESTE",
                     "aberta": false,
                     "sala": "3"
                 },
                 {
-                    "direcao": "Oeste",
+                    "direcao": "OESTE",
                     "aberta": false,
                     "sala": "2"
                 }
@@ -65,7 +65,7 @@
             "saida": false,
             "portas": [
                 {
-                    "direcao": "Leste",
+                    "direcao": "LESTE",
                     "aberta": false,
                     "sala": "1"
                 }
@@ -87,7 +87,7 @@
             "saida": true,
             "portas": [
                 {
-                    "direcao": "Oeste",
+                    "direcao": "OESTE",
                     "aberta": false,
                     "sala": "1"
                 }
@@ -109,7 +109,7 @@
             "saida": false,
             "portas": [
                 {
-                    "direcao": "Norte",
+                    "direcao": "NORTE",
                     "aberta": false,
                     "sala": "1"
                 }

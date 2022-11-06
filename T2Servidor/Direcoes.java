@@ -1,10 +1,10 @@
 package T2Servidor;
 
 public enum Direcoes {
-    SUL(1, "S"),
-    NORTE(2,"N"),
-    LESTE(3,"L"),
-    OESTE(4,"O");
+    SUL(1, "SUL"),
+    NORTE(2,"NORTE"),
+    LESTE(3,"LESTE"),
+    OESTE(4,"OESTE");
 
     private int codigo;
     private String direcao;

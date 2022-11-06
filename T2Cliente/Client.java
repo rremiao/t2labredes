@@ -36,7 +36,6 @@ public static void main(String args[]) throws Exception {
 
          // declara o pacote a ser recebido
          DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-         System.out.println(receivePacket.getData().toString());
          // recebe o pacote do cliente
          if(!mssg.contains("FIM")) {
             clientSocket.receive(receivePacket);
@@ -59,7 +58,6 @@ public static void main(String args[]) throws Exception {
       clientSocket.send(sendNamePacket);
       DatagramPacket receiveNamePacket = new DatagramPacket(response, response.length);   
       clientSocket.receive(receiveNamePacket);
-      System.out.println("receivePacket: " + receiveNamePacket.getAddress().toString() + "\n" + "porta: " + receiveNamePacket.getPort());
       String responseReceived = new String(receiveNamePacket.getData());
       System.out.println(responseReceived); 
       if(responseReceived.contains("Erro")) {

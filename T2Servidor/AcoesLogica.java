@@ -11,15 +11,15 @@ public class AcoesLogica {
         List<String> lista = Arrays.asList(sentence.split(" "));
         if(lista.size() < 2) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         
-        if(lista.get(1).contains("sala")) {
+        if(lista.get(1).toLowerCase().contains("sala")) {
             pacote.setSala(sala.id);
             return pacote;
         }
-        
+
         for(Objetos o : sala.objetos) {
-            if(lista.get(1).contains(o.getObjeto())) {
+            if(lista.get(1).toLowerCase().contains(o.getObjeto())) {
                 pacote.setSala(sala.id);
                 pacote.setObjeto(o.getObjeto());
                 return pacote;
@@ -30,21 +30,22 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarMover(String sentence) {
+    public static PacoteMensagem realizarMover(String sentence, Sala sala) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
-
-        for(Direcoes d : Direcoes.values()) {
-            if(lista.get(1).contains(d.getDirecao())) {
-                pacote.setDirecao(d.getDirecao());
-                return pacote;
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
+        pacote.setSala(sala.id);
+        for(Porta p : sala.getPortas()) {
+            System.out.println("lista direcao: " + lista.get(1).toUpperCase() +  " porta direcao :" + p.direcao.getDirecao() + "aberta: "+p.getAberta());
+            if(lista.get(1).toUpperCase().contains(p.getDirecao().getDirecao()) && p.getAberta()) {
+                pacote.setDirecao(p.getDirecao().getDirecao());
+                return pacote;    
             }
-
         }
         pacote.setErro(Erro.MOVER);
+        System.out.println(pacote.getErro().getMensagemErro());
         return pacote;
     }
 
@@ -54,7 +55,7 @@ public class AcoesLogica {
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         for(Objetos o : Objetos.values()) {
             if(lista.get(1).contains(o.getObjeto())) {
                 pacote.setObjeto(o.getObjeto());
@@ -72,7 +73,7 @@ public class AcoesLogica {
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         for(Objetos o : Objetos.values()) {
             if(lista.get(1).contains(o.getObjeto())) {
                 pacote.setObjeto(o.getObjeto());
@@ -97,7 +98,7 @@ public class AcoesLogica {
 
         if(lista.size() < 3) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         pacote.setObjeto(lista.get(1));
         pacote.setAlvo(lista.get(2));
 
@@ -112,7 +113,7 @@ public class AcoesLogica {
 
         if(lista.size() < 2) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         String mensagem = "";
         
         for(int i = 1; i < lista.size() - 1; i++) {
@@ -131,7 +132,7 @@ public class AcoesLogica {
 
         if(lista.size() < 2) return null;
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         String mensagem = "";
         
         for(int i = 1; i < lista.size() - 1; i++) {
@@ -148,7 +149,7 @@ public class AcoesLogica {
 
         List<String> lista = Arrays.asList(sentence.split(" "));
 
-        pacote.setAcao(Acoes.valueOf(lista.get(0)));
+        pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
 
         String mensagem = "";
 

@@ -13,26 +13,35 @@ public class EnviaMensagem {
         byte sendData [] = new byte[1024];
         for(Erro e : Erro.values()) {
             if(mensagem.getErro() == e) {
-                respostaMensagem = new RespostaMensagem(null, null, e.getMensagemErro(), null, null);
-                socket.send(new DatagramPacket(e.getMensagemErro().getBytes(), e.getMensagemErro().getBytes().length));                
+                respostaMensagem = new RespostaMensagem(e.getMensagemErro());
+                socket.send(new DatagramPacket(e.getMensagemErro().getBytes(), e.getMensagemErro().getBytes().length, ip, port));                
                 return respostaMensagem;
             }
         }
-        System.out.println("GET SALA: " + mensagem.getSala());
         String mensagemServidor = "";
+        Jogador j;
         switch(mensagem.getAcao()) {
-            case EXAMINAR: mensagemServidor = examinar(salas.get(Integer.valueOf(mensagem.getSala())), mensagem); break;
-            case CRIAR: mensagemServidor = "Novo jogador criado"; break;
-            default: break;
+            case EXAMINAR: //OK
+                mensagemServidor = examinar(salas.get(Integer.valueOf(mensagem.getSala())), mensagem); 
+                respostaMensagem = new RespostaMensagem(mensagem.getJogador(), salas.get(Integer.valueOf(mensagem.getSala())), null, null, mensagem.getAcao(), mensagemServidor, jogadores);
+                socket.send(new DatagramPacket(mensagemServidor.getBytes(), mensagemServidor.getBytes().length, ip, port));
+                return respostaMensagem;                
+            case CRIAR: //OK
+                mensagemServidor = "Novo jogador criado"; 
+                respostaMensagem = new RespostaMensagem(mensagem.getJogador(), salas.get(Integer.valueOf(mensagem.getSala())), null, null, mensagem.getAcao(), mensagemServidor, jogadores);
+                socket.send(new DatagramPacket(mensagemServidor.getBytes(), mensagemServidor.getBytes().length, ip, port));
+                return respostaMensagem;
+            case MOVER: // Precisa atualizar a lista de jogadores das salas
+                j = jogadores.stream().filter(x -> x.getPorta().equals(String.valueOf(port))).findFirst().get(); 
+                String novaSala = mover(salas.get(Integer.valueOf(mensagem.getSala())), mensagem);
+                mensagemServidor = "Movendo para outra sala." + "\n" + examinar(salas.get(Integer.valueOf(novaSala)), mensagem);
+                respostaMensagem = new RespostaMensagem(j, salas.get(Integer.valueOf(mensagem.getSala())), salas.get(Integer.valueOf(novaSala)), null, mensagem.getAcao(), mensagemServidor, jogadores);
+                socket.send(new DatagramPacket(mensagemServidor.getBytes(), mensagemServidor.getBytes().length, ip, port));
+                return respostaMensagem;
+            default: 
+                return null;
         }
-        respostaMensagem = new RespostaMensagem(mensagem.getJogador(), salas.get(Integer.valueOf(mensagem.getSala())), null, mensagem.getAcao(), mensagemServidor);
-        System.out.println("Mensagem: " + mensagemServidor);
-        System.out.println("Byte:" + mensagemServidor.getBytes().length);
-        sendData = mensagemServidor.getBytes();
-        System.out.println("porta:" + port);
-        DatagramPacket packet = new DatagramPacket(sendData, sendData.length, ip, port);
-        socket.send(packet);
-        return respostaMensagem;
+
     }
 
     public String examinar(Sala sala, PacoteMensagem pacote) {
@@ -55,5 +64,14 @@ public class EnviaMensagem {
         return resposta;
     }
 
+    public String mover(Sala sala, PacoteMensagem pacote)  {
+        String resposta = sala.getPortas().stream()
+            .filter(x -> x.direcao.getDirecao().equals(pacote.getDirecao()))
+            .findFirst()
+            .get()
+            .sala;
+        
+        return resposta;
+    }
 
 }
