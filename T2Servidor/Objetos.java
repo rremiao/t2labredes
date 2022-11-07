@@ -1,7 +1,8 @@
 package T2Servidor;
 
 public enum Objetos {
-    CHAVE(1, "CHAVE", "chave que pode ser usado em portas");
+    CHAVE(1, "CHAVE", "chave que pode ser usado em portas"),
+    PORTA(2, "PORTA", "porta para ser aberta");
 
     private int codigo;
 

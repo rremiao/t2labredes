@@ -3,6 +3,7 @@ package T2Servidor;
 import java.util.Arrays;
 import java.util.List;
 
+
 public class AcoesLogica {
 
     public static PacoteMensagem realizarExaminar(String sentence, Sala sala) {
@@ -70,15 +71,18 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarLargar(String sentence) {
+    public static PacoteMensagem realizarLargar(String sentence, Sala sala, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
 
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
-        for(Objetos o : Objetos.values()) {
-            if(lista.get(1).contains(o.getObjeto())) {
+        pacote.setJogador(jogador);
+        pacote.setSala(sala.id);
+        for(Objetos o : sala.getObjetos()) {
+            System.out.println("Objeto largados " + lista.get(1).toUpperCase() + " Objeto: " + o.getObjeto());
+            if(lista.get(1).toUpperCase().contains(o.getObjeto())) {
                 pacote.setObjeto(o.getObjeto());
                 return pacote;
             }
@@ -88,34 +92,47 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarInventario(String sentence) {
+    public static PacoteMensagem realizarInventario(String sentence, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
+        pacote.setJogador(jogador);
         pacote.setAcao(Acoes.valueOf(sentence));
         return pacote;
     }
 
-    public static PacoteMensagem realizarUsar(String sentence) {
+    public static PacoteMensagem realizarUsar(String sentence,  Sala sala, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
 
         if(lista.size() < 3) return null;
 
+        pacote.setJogador(jogador);
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
-        pacote.setObjeto(lista.get(1));
-        pacote.setAlvo(lista.get(2));
 
+        if(pacote.getJogador().getInventario().contains(Objetos.valueOf(pacote.getObjeto()))) {
+            pacote.setObjeto(lista.get(1));
+        }    
+        if(sala.getObjetos().contains(Objetos.valueOf(lista.get(2))) || sala.getPortas().stream()
+                                                                                .filter(x -> x.getDirecao() == Direcoes.valueOf(pacote.getAlvo()))
+                                                                                .findFirst().isPresent()) {
+            pacote.setAlvo(sentence);
+        }
+        else{
+            pacote.setErro(Erro.USAR);
+        }
+        
         return pacote;
     }
 
     
-    public static PacoteMensagem realizarFalar(String sentence) {
+    public static PacoteMensagem realizarFalar(String sentence, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
 
         if(lista.size() < 2) return null;
 
+        pacote.setJogador(jogador);
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         String mensagem = "";
         
@@ -127,7 +144,6 @@ public class AcoesLogica {
 
         return pacote;
     }
-    //cochichar jioijo oijio jogador
     public static PacoteMensagem realizarCochichar(String sentence) {
         PacoteMensagem pacote = new PacoteMensagem();
 
@@ -147,22 +163,13 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarAjuda(String sentence) {
+    public static PacoteMensagem realizarAjuda(String sentence, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
 
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
-
-        String mensagem = "";
-
-        for(Acoes a : Acoes.values()) {
-            if(a != Acoes.AJUDA) {
-                mensagem.concat( a.getExplicacao() + "\n");
-            }
-        }
-
-        pacote.setMensagem(mensagem);
+        pacote.setJogador(jogador);
 
         return pacote;
     }

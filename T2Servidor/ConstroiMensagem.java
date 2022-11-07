@@ -26,6 +26,18 @@ public class ConstroiMensagem {
                 return mover(mensagem, jogadores, salas, ip, port);
             case PEGAR:
                 return pegar(mensagem, jogadores, salas, ip, port);
+            case LARGAR:
+                return largar(mensagem, jogadores, salas, ip, port);
+            case INVENTARIO:
+                return inventario(mensagem, jogadores, salas, ip, port);
+            case AJUDA:
+                return ajuda(mensagem, jogadores, salas, ip, port);
+            case FALAR:
+                return falar(mensagem, jogadores, salas, ip, port);
+            case COCHICHAR:
+                return cochichar(mensagem, jogadores, salas, ip, port);
+            case USAR:
+                return usar(mensagem, jogadores, salas, ip, port);
             default: 
                 return null;
         }
@@ -72,6 +84,70 @@ public class ConstroiMensagem {
         RespostaMensagem resposta = new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
         return resposta;
     }
+
+    public RespostaMensagem largar(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        String mensagem = pacote.getJogador().getNome() + " largou o objeto: " + pacote.getObjeto();
+        salas.get(Integer.valueOf(pacote.getSala())).getObjetos().add(Objetos.valueOf(pacote.getObjeto()));
+        pacote.getJogador().getInventario().remove(Objetos.valueOf(pacote.getObjeto()));
+        RespostaMensagem resposta = new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
+        return resposta;
+    }
+
+    public RespostaMensagem inventario(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        String mensagem = pacote.getJogador().getNome() + " seu inventário consiste em";
+
+        for(Objetos o : pacote.getJogador().getInventario()) {
+            mensagem.concat(" " + o.getObjeto());
+        }
+
+        return new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
+    }
+
+    public RespostaMensagem ajuda(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        String mensagem = "";
+
+        for(Acoes a : Acoes.values()) {
+            if(a != Acoes.AJUDA) mensagem.concat(" " + a.getAcao() + ":" + a.getExplicacao());
+        }
+
+        return new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
+    }
+
+    public RespostaMensagem falar(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        String mensagem = pacote.getJogador().getNome() + " falou: " + pacote.getMensagem();
+        RespostaMensagem resposta = new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
+        return resposta;
+    }
+
+    public RespostaMensagem cochichar(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        Jogador jogadorOrigem = jogadores.stream().filter(x -> x.getPorta().equals(String.valueOf(port))).findFirst().get();
+        String mensagem = jogadorOrigem.getNome() + " cochichou: " + pacote.getMensagem();
+        RespostaMensagem resposta = new RespostaMensagem(pacote.getJogador(), salas.get(Integer.valueOf(pacote.getSala())), null, null, pacote.getAcao(), mensagem, jogadores, salas);
+        return resposta;
+    }
+
+    public RespostaMensagem usar(PacoteMensagem pacote, List<Jogador> jogadores, List<Sala> salas, InetAddress ip, int port) {
+        //Chave != Porta Invalido
+        //Chave == Porta = Remove chave do inventario -> abre porta dos dois lados
+        Sala antigaSala = salas.get(Integer.parseInt(pacote.getSala()));
+        Porta antigaPorta = salas.get(Integer.parseInt(pacote.getSala())).portas.stream().filter(x -> x.getDirecao() == Direcoes.valueOf(pacote.getAlvo())).findFirst().get();
+        jogadores.get(jogadores.indexOf(pacote.getJogador())).getInventario().remove(Objetos.valueOf(pacote.getObjeto()));
+        antigaPorta.setAberta(true);
+        antigaSala.getPortas().set(antigaSala.getPortas().indexOf(antigaPorta), antigaPorta);
+        salas.set(salas.indexOf(antigaSala), antigaSala);
+        //0 -> 1
+        //?? -> 1 
+        //Sala nova
+        Sala novaSala = salas.get(Integer.parseInt(antigaPorta.getSala()));
+        Porta novaPorta = novaSala.getPortas().stream().filter(x -> x.getSala().equals(antigaSala.getId())).findFirst().get();
+        novaPorta.setAberta(true);
+        novaSala.getPortas().set(novaSala.getPortas().indexOf(novaPorta), novaPorta);
+        salas.set(salas.indexOf(novaSala), novaSala);
+
+        String mensagem = pacote.getJogador().getNome() + " usou " + pacote.getObjeto() + " em " + pacote.getAlvo();
+
+        return new RespostaMensagem(pacote.getJogador(), antigaSala, novaSala, null, pacote.getAcao(), mensagem, jogadores, salas);
+    } 
 
     public String examinar(Sala sala, PacoteMensagem pacote) {
         String resposta = " ";
