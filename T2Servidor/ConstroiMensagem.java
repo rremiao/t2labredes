@@ -166,7 +166,6 @@ public class ConstroiMensagem {
         for(String jogador : sala.jogadores) {
             resposta += jogador;
         }
-        resposta += "\nTeste\n";
         resposta += "Lista Jogadores: " + sala.getJogadores().size();
         System.out.println(resposta);
         return resposta;

@@ -3,7 +3,9 @@ package T2Servidor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//Mapa: x o x
+//      o o o <- saida
+//      x o x
 public class Mapa {
     private List<Sala> salas;
     private List<Objetos> objetos0;

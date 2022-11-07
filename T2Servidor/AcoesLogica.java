@@ -95,7 +95,7 @@ public class AcoesLogica {
     public static PacoteMensagem realizarInventario(String sentence, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
         pacote.setJogador(jogador);
-        pacote.setAcao(Acoes.valueOf(sentence));
+        pacote.setAcao(Acoes.valueOf(sentence.toUpperCase()));
         return pacote;
     }
 
