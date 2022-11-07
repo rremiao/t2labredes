@@ -24,8 +24,8 @@ public static void main(String args[]) throws Exception {
       InetAddress IPAddress = InetAddress.getByName(serverAddr);
       
       clientSocket = setUserConnection(clientSocket, inFromUser, IPAddress, port);
-      byte[] sendData = new byte[256];
-      byte[] receiveData = new byte[256];
+      byte[] sendData = new byte[1024];
+      byte[] receiveData = new byte[1024];
       DatagramPacket sendPacket;
       DatagramPacket receivePacket;
       while(!clientSocket.isClosed()) {
@@ -57,8 +57,8 @@ public static void main(String args[]) throws Exception {
       System.out.println("Digite seu nome: ");
       String connect = "CRIAR ";
       String name = connect.concat(inFromUser.readLine());
-      byte[] sendName = new byte[256];
-      byte[] response = new byte[256];
+      byte[] sendName = new byte[1024];
+      byte[] response = new byte[1024];
       sendName = name.getBytes();
       DatagramPacket sendNamePacket = new DatagramPacket(sendName, sendName.length, IPAddress, port);
       clientSocket.send(sendNamePacket);

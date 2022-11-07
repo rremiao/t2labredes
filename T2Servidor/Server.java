@@ -24,8 +24,8 @@ public class Server {
        int count = 0;
        ConstroiMensagem constroiMensagem = new ConstroiMensagem();
        System.out.println(mapa.getSalas().get(0).toString());
-       byte[] receiveData = new byte[256];
-       byte[] sendData = new byte[256];
+       byte[] receiveData = new byte[1024];
+       byte[] sendData = new byte[1024];
           while(true)
           {
             RespostaMensagem respostaMensagem = null;
@@ -40,17 +40,6 @@ public class Server {
              String sentence = new String(receivePacket.getData());
              InetAddress IPAddress = receivePacket.getAddress();
              int receivePort = receivePacket.getPort();
-            //  if(!sentence.trim().equals("FIM")){
-            //    // cria pacote com o dado, o endereco do server e porta do servidor
-            //    DatagramPacket sendPacket = new DatagramPacket(receiveData, receiveData.length, IPAddress, receivePort);
-            //    serverSocket.send(sendPacket);
-            //  }
-            //  else {
-            //     System.out.println("Encerrando o servidor...");
-            //     System.exit(0);
-            //     serverSocket.close();
-            //     break;
-            //  }
 
              PacoteMensagem pacote = new PacoteMensagem();
              List<String> lista = Arrays.asList(sentence.split(" "));
@@ -195,8 +184,8 @@ public class Server {
                default: break;   
              }
             //  System.out.println(mapa.getSalas().get(0).toString());
-             receiveData = new byte[256];
-             sendData = new byte[256];
+             receiveData = new byte[1024];
+             sendData = new byte[1024];
           }
     }
 }
