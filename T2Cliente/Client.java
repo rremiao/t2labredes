@@ -36,6 +36,7 @@ public static void main(String args[]) throws Exception {
 
          // declara o pacote a ser recebido
          DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+
          // recebe o pacote do cliente
          if(!mssg.contains("FIM")) {
             clientSocket.receive(receivePacket);

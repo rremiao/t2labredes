@@ -7,6 +7,7 @@ public class RespostaMensagem {
     private List<Jogador> jogadores;
     private Sala sala;
     private Sala novaSala;
+    private List<Sala> salas;
     private String erro;
     private Acoes acao;
     private String mensagem;
@@ -15,7 +16,7 @@ public class RespostaMensagem {
         this.erro = erro;
     }
 
-    public RespostaMensagem(Jogador jogador, Sala sala, Sala novSala,String erro, Acoes acao, String mensagem, List<Jogador> jogadores) {
+    public RespostaMensagem(Jogador jogador, Sala sala, Sala novSala,String erro, Acoes acao, String mensagem, List<Jogador> jogadores, List<Sala> salas) {
         this.jogador = jogador;
         this.sala = sala;
         this.novaSala = novSala;
@@ -23,6 +24,7 @@ public class RespostaMensagem {
         this.acao = acao;
         this.mensagem = mensagem;
         this.jogadores = jogadores;
+        this.salas = salas;
     }
 
     public Acoes getAcao() {
@@ -51,5 +53,9 @@ public class RespostaMensagem {
 
     public List<Jogador> getJogadores() {
         return jogadores;
+    }
+
+    public List<Sala> getSalas() {
+        return salas;
     }    
 }

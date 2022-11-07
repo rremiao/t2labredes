@@ -30,15 +30,15 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarMover(String sentence, Sala sala) {
+    public static PacoteMensagem realizarMover(String sentence, Sala sala, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
         pacote.setSala(sala.id);
+        pacote.setJogador(jogador);
         for(Porta p : sala.getPortas()) {
-            System.out.println("lista direcao: " + lista.get(1).toUpperCase() +  " porta direcao :" + p.direcao.getDirecao() + "aberta: "+p.getAberta());
             if(lista.get(1).toUpperCase().contains(p.getDirecao().getDirecao()) && p.getAberta()) {
                 pacote.setDirecao(p.getDirecao().getDirecao());
                 return pacote;    
@@ -49,15 +49,18 @@ public class AcoesLogica {
         return pacote;
     }
 
-    public static PacoteMensagem realizarPegar(String sentence) {
+    public static PacoteMensagem realizarPegar(String sentence, Sala sala, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));        
         if(lista.size() < 2) return null;
 
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
-        for(Objetos o : Objetos.values()) {
-            if(lista.get(1).contains(o.getObjeto())) {
+        pacote.setJogador(jogador);
+        pacote.setSala(sala.id);
+        for(Objetos o : sala.getObjetos()) {
+            System.out.println("Objeto desejado: " + lista.get(1).toUpperCase() + " Objeto: " + o.getObjeto());
+            if(lista.get(1).toUpperCase().contains(o.getObjeto())) {
                 pacote.setObjeto(o.getObjeto());
                 return pacote;
             }
