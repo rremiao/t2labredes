@@ -20,7 +20,7 @@ public class AcoesLogica {
         }
 
         for(Objetos o : sala.objetos) {
-            if(lista.get(1).toLowerCase().contains(o.getObjeto())) {
+            if(lista.get(1).toUpperCase().contains(o.getObjeto())) {
                 pacote.setSala(sala.id);
                 pacote.setObjeto(o.getObjeto());
                 return pacote;
@@ -125,7 +125,7 @@ public class AcoesLogica {
     }
 
     
-    public static PacoteMensagem realizarFalar(String sentence, Jogador jogador) {
+    public static PacoteMensagem realizarFalar(String sentence, Sala sala, Jogador jogador) {
         PacoteMensagem pacote = new PacoteMensagem();
 
         List<String> lista = Arrays.asList(sentence.split(" "));
@@ -134,6 +134,7 @@ public class AcoesLogica {
 
         pacote.setJogador(jogador);
         pacote.setAcao(Acoes.valueOf(lista.get(0).toUpperCase()));
+        pacote.setSala(sala.id);
         String mensagem = "";
         
         for(int i = 1; i < lista.size() - 1; i++) {

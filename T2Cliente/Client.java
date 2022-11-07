@@ -24,27 +24,32 @@ public static void main(String args[]) throws Exception {
       InetAddress IPAddress = InetAddress.getByName(serverAddr);
       
       clientSocket = setUserConnection(clientSocket, inFromUser, IPAddress, port);
-
+      byte[] sendData = new byte[256];
+      byte[] receiveData = new byte[256];
+      DatagramPacket sendPacket;
+      DatagramPacket receivePacket;
       while(!clientSocket.isClosed()) {
          System.out.println("Digite seu comando:");         
          String mssg = inFromUser.readLine();
-         byte[] sendData = new byte[1024];
-         byte[] receiveData = new byte[1024];
+
          sendData = mssg.getBytes();
-         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+         sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
          clientSocket.send(sendPacket);
 
          // declara o pacote a ser recebido
-         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+         receivePacket = new DatagramPacket(receiveData, receiveData.length);
 
          // recebe o pacote do cliente
          if(!mssg.contains("FIM")) {
             clientSocket.receive(receivePacket);
-            String sentenceReceived = new String(receivePacket.getData());
+            String sentenceReceived = new String(receivePacket.getData(), 0, receivePacket.getLength());
+            System.out.println("Tamanho Mensagem recebida: " + sentenceReceived.getBytes().length);
             System.out.println("Mensagem recebida do servidor: " + sentenceReceived);
          } else {
             clientSocket.close();
          }
+         // sendData = new byte[1024];
+         // receiveData = new byte[1024];
       }
    }
 
@@ -52,8 +57,8 @@ public static void main(String args[]) throws Exception {
       System.out.println("Digite seu nome: ");
       String connect = "CRIAR ";
       String name = connect.concat(inFromUser.readLine());
-      byte[] sendName = new byte[1024];
-      byte[] response = new byte[1024];
+      byte[] sendName = new byte[256];
+      byte[] response = new byte[256];
       sendName = name.getBytes();
       DatagramPacket sendNamePacket = new DatagramPacket(sendName, sendName.length, IPAddress, port);
       clientSocket.send(sendNamePacket);

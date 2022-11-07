@@ -86,7 +86,7 @@ public class Sala {
 
     @Override
     public String toString() {
-        return "Sala [ \n"+"id=" + id +"\n"+ "portas=" + portas +"\n" + "objetos=" + objetos + "\n"+"saida=" + saida + "\n" +"Jogadores: "+ jogadores.toString() + "\n" +"]";
+        return "Sala [ \n"+"id=" + id +"\n"+ "portas=" + portas +"\n" + "objetos=" + objetos + "\n"+"saida=" + saida + "\n" +"Jogadores: "+ jogadores.toString() + "\n" + "\n"+ "List size: "+jogadores.size()+"]";
     }
 
     
