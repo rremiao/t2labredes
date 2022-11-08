@@ -138,6 +138,7 @@ public class Server {
                      System.out.println("Mensagem Pegar: " + respostaMensagem.getMensagem());
                      serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(jogadorPorta.getPorta())));
                   }
+                  break;
                case LARGAR:
                   mapa.getSalas().set(Integer.valueOf(respostaMensagem.getSala().id), respostaMensagem.getSala());
                   listaJogadores.set(respostaMensagem.getJogador().getId(), respostaMensagem.getJogador());
@@ -150,10 +151,13 @@ public class Server {
                      System.out.println("Mensagem Largar: " + respostaMensagem.getMensagem());
                      serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(jogadorPorta.getPorta())));
                   }
+                  break;
                case INVENTARIO:
                   serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(pacote.getJogador().getPorta())));
+                  break;
                case AJUDA: 
                   serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(pacote.getJogador().getPorta())));
+                  break;
                case FALAR:
                   // mapa.getSalas().set(Integer.valueOf(respostaMensagem.getSala().id), respostaMensagem.getSala());
                   // listaJogadores.set(respostaMensagem.getJogador().getId(), respostaMensagem.getJogador());
@@ -166,8 +170,10 @@ public class Server {
                      System.out.println("Mensagem Falar: " + respostaMensagem.getMensagem());
                      serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(jogadorPorta.getPorta())));
                   }
+                  break;
                case COCHICHAR:
                   serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(pacote.getJogador().getPorta())));
+                  break;
                case USAR: 
                   mapa.getSalas().set(Integer.valueOf(respostaMensagem.getSala().id), respostaMensagem.getSala());
                   // mapa.getSalas().set(Integer.valueOf(respostaMensagem.getNovaSala().id), respostaMensagem.getNovaSala());
@@ -181,6 +187,7 @@ public class Server {
                      System.out.println("Mensagem Usar: " + respostaMensagem.getMensagem());
                      serverSocket.send(new DatagramPacket(respostaMensagem.getMensagem().getBytes(), respostaMensagem.getMensagem().getBytes().length, IPAddress, Integer.valueOf(jogadorPorta.getPorta())));
                   }
+                  break;
                default: break;   
              }
             //  System.out.println(mapa.getSalas().get(0).toString());
